@@ -309,6 +309,42 @@ const Hero = ({ stats }) => {
             }}>
               {urgency.sub}
             </p>
+
+            {/* Streak Counter */}
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.4, type: 'spring' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                margin: '1.5rem 0 0.5rem'
+              }}
+            >
+              <span style={{ fontSize: '2rem', filter: 'drop-shadow(0 0 10px rgba(16, 185, 129, 0.3))' }}>🔥</span>
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ 
+                  fontSize: '2rem', 
+                  fontWeight: 900, 
+                  color: 'var(--text-main)', 
+                  lineHeight: 1,
+                  fontFamily: 'Plus Jakarta Sans, sans-serif'
+                }}>
+                  {day} DAY STREAK
+                </div>
+                <div style={{ 
+                  fontSize: '0.7rem', 
+                  fontWeight: 800, 
+                  color: '#10b981', 
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase'
+                }}>
+                  Unbroken Momentum
+                </div>
+              </div>
+            </motion.div>
           </div>
 
           <div style={{ flexGrow: 1, width: '100%', paddingBottom: '2rem' }}>
@@ -323,6 +359,48 @@ const Hero = ({ stats }) => {
             <span>REFERENCE: RECOVERY-STABILITY-INDEX-V2</span>
           </div>
         </motion.div>
+
+        {/* Addictive Things Marquee */}
+        <div style={{ 
+          width: '100%', 
+          overflow: 'hidden', 
+          background: 'rgba(16, 185, 129, 0.03)',
+          padding: '1.5rem 0',
+          borderTop: '1px solid rgba(16, 185, 129, 0.05)',
+          borderBottom: '1px solid rgba(16, 185, 129, 0.05)',
+          marginTop: '2rem'
+        }}>
+          <motion.div
+            animate={{ x: [0, -1000] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 20, 
+              ease: "linear" 
+            }}
+            style={{ 
+              display: 'flex', 
+              gap: '4rem', 
+              width: 'max-content',
+              alignItems: 'center'
+            }}
+          >
+            {[
+              "SOCIAL MEDIA", "SUGAR", "VAPING", "PROCRASTINATION", "JUNK FOOD", "CAFFEINE", "GAMBLING", "ALCOHOL",
+              "SOCIAL MEDIA", "SUGAR", "VAPING", "PROCRASTINATION", "JUNK FOOD", "CAFFEINE", "GAMBLING", "ALCOHOL"
+            ].map((item, i) => (
+              <div key={i} style={{ 
+                fontSize: '0.8rem', 
+                fontWeight: 900, 
+                color: 'var(--text-main)', 
+                opacity: 0.4,
+                letterSpacing: '0.3em',
+                whiteSpace: 'nowrap'
+              }}>
+                {item}
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
         {/* Features Section */}
         <div id="features">

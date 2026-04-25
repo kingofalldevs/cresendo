@@ -313,8 +313,8 @@ const TimelineView = ({ data }) => {
                     width="36"
                     height="32"
                     rx="8"
-                    fill={isToday ? "#10b981" : (isHovered ? "#ecfdf5" : "rgba(255, 255, 255, 0.98)")}
-                    stroke={isToday ? "#10b981" : (isHovered ? "#10b981" : "rgba(16, 185, 129, 0.25)")}
+                    fill={d.day >= 25 ? "rgba(255, 255, 255, 0.98)" : "#10b981"}
+                    stroke="#10b981"
                     strokeWidth={isHovered ? "2.5" : "1"}
                     className={isToday ? "today-glow" : ""}
                     style={{ 
@@ -330,7 +330,7 @@ const TimelineView = ({ data }) => {
                     style={{
                       fontSize: isToday ? '11px' : '9px',
                       fontWeight: 900,
-                      fill: isToday ? "#ffffff" : "#064e3b",
+                      fill: d.day >= 25 ? "#10b981" : "#ffffff",
                       fontFamily: 'Plus Jakarta Sans, sans-serif',
                       pointerEvents: 'none',
                       letterSpacing: '-0.02em'
@@ -372,14 +372,35 @@ const TimelineView = ({ data }) => {
             Resilience Bloom
           </text>
           {/* SVG Tooltip */}
-          {hoveredDay && (
-            <g transform={`translate(${hoveredDay.x}, ${hoveredDay.y - 45})`}>
-              <rect x="-55" y="-16" width="110" height="28" rx="8" fill="rgba(15, 23, 42, 0.95)" />
-              <text x="0" y="3" textAnchor="middle" style={{ fontSize: '11px', fontWeight: 800, fill: '#ffffff', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-                {hoveredDay.momentum.toFixed(1)}% MOMENTUM
-              </text>
-            </g>
-          )}
+          {hoveredDay && (() => {
+            const getSkill = (day) => {
+              if (day <= 7) return { name: "Iron Will", lv: 1, icon: "🛡️" };
+              if (day <= 14) return { name: "Rhythm", lv: 2, icon: "🎵" };
+              if (day <= 21) return { name: "Clarity", lv: 3, icon: "👁️" };
+              return { name: "Zen Master", lv: 4, icon: "🧘" };
+            };
+            const skill = getSkill(Math.round(hoveredDay.day));
+            
+            return (
+              <g transform={`translate(${hoveredDay.x}, ${hoveredDay.y - 55})`}>
+                <rect x="-85" y="-35" width="170" height="55" rx="12" fill="rgba(15, 23, 42, 0.98)" style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.2))' }} />
+                
+                {/* Skill Header */}
+                <text x="0" y="-18" textAnchor="middle" style={{ fontSize: '10px', fontWeight: 900, fill: '#10b981', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  {skill.icon} {skill.name} UNLOCKED
+                </text>
+                
+                {/* Level Progress */}
+                <rect x="-60" y="-10" width="120" height="4" rx="2" fill="rgba(255,255,255,0.1)" />
+                <rect x="-60" y="-10" width={(skill.lv / 4) * 120} height="4" rx="2" fill="#10b981" />
+                
+                {/* Motivational Text */}
+                <text x="0" y="10" textAnchor="middle" style={{ fontSize: '11px', fontWeight: 700, fill: '#ffffff', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  no-relapse keep going
+                </text>
+              </g>
+            );
+          })()}
         </svg>
       </div>
     </div>
