@@ -1,29 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Core Palette (HSL) */
+  /* Core Palette (HSL) - Polished Emerald & White */
   --h: 162; /* Emerald Hue */
   --s: 84%;
   
-  --bg-color: hsl(162, 20%, 98%);
-  --card-bg: hsla(0, 0%, 100%, 0.8);
-  --primary: hsl(var(--h), var(--s), 39%);
-  --primary-glow: hsla(var(--h), var(--s), 39%, 0.15);
-  --secondary: hsl(221, 83%, 53%);
-  --accent: hsl(343, 81%, 59%);
+  --bg-color: #f8fafc; /* Ultra-clean Slate/White */
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --primary: #10b981; /* Emerald */
+  --primary-glow: rgba(16, 185, 129, 0.1);
+  --secondary: #3b82f6;
+  --accent: #f59e0b;
   
-  --text-main: hsl(222, 47%, 11%);
-  --text-dim: hsl(215, 16%, 47%);
+  --text-main: #0f172a; /* Slate 900 */
+  --text-dim: #64748b; /* Slate 500 */
   
-  --glass-border: hsla(222, 47%, 11%, 0.05);
-  --input-bg: hsl(0, 0%, 100%);
+  --glass-border: rgba(16, 185, 129, 0.08);
+  --input-bg: #ffffff;
   
-  /* Elevation System */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-premium: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-emerald: 0 10px 30px -10px hsla(162, 84%, 39%, 0.3);
+  /* Elevation System - Softer & More Premium */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  --shadow-emerald: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
 }
 
 * {
