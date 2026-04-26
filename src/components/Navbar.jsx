@@ -56,10 +56,8 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
               const isOpen = slots.includes(app.id);
               const Icon = app.icon;
               return (
-                <motion.button
+                <button
                   key={app.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   onClick={() => openApp(app.id)}
                   style={{
                     padding: '8px 16px',
@@ -78,6 +76,16 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}
+                  onMouseOver={(e) => {
+                    if (!isOpen) e.currentTarget.style.color = 'var(--text-main)';
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isOpen) e.currentTarget.style.color = 'var(--text-dim)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                  onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                  onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                 >
                   <Icon size={16} />
                   {app.name}
@@ -89,7 +97,7 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
                       background: 'var(--primary)'
                     }} />
                   )}
-                </motion.button>
+                </button>
               );
             })}
           </div>

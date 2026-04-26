@@ -193,10 +193,12 @@ const ChecklistTracker = () => {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(70px, 1fr))',
-        gap: '0.75rem',
+        gridTemplateColumns: 'repeat(7, 1fr)',
+        gap: '0.5rem',
         flexGrow: 1,
-        overflowY: 'auto'
+        overflowY: 'auto',
+        alignContent: 'start',
+        padding: '0.5rem 0'
       }}>
         {currentMonthDays.map((d) => {
           const goalText = monthGoals[d.day];
@@ -208,7 +210,7 @@ const ChecklistTracker = () => {
               title={isGoal ? `GOAL: ${goalText}` : ''}
               style={{
                 aspectRatio: '1/1',
-                borderRadius: '16px',
+                borderRadius: '10px',
                 border: '2px solid',
                 borderColor: d.completed ? 'var(--primary)' : (isGoal ? '#f59e0b' : 'rgba(16, 185, 129, 0.1)'),
                 background: d.completed ? 'var(--primary)' : (isGoal ? '#fef3c7' : 'white'),
@@ -216,24 +218,25 @@ const ChecklistTracker = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '4px',
+                gap: '2px',
                 cursor: 'pointer',
                 transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: d.completed ? '0 4px 12px rgba(16, 185, 129, 0.2)' : (isGoal ? '0 4px 12px rgba(245, 158, 11, 0.1)' : 'none'),
-                position: 'relative'
+                position: 'relative',
+                padding: '0'
               }}
             >
               <span style={{ 
-                fontSize: '0.8rem', 
+                fontSize: '0.75rem', 
                 fontWeight: 900, 
                 color: d.completed ? 'white' : (isGoal ? '#92400e' : 'var(--text-main)') 
               }}>
                 {d.day}
               </span>
               {d.completed ? (
-                <CheckCircle2 size={16} color="white" />
+                <CheckCircle2 size={12} color="white" />
               ) : (
-                <Circle size={16} color={isGoal ? "#f59e0b" : "rgba(16, 185, 129, 0.3)"} />
+                <Circle size={12} color={isGoal ? "#f59e0b" : "rgba(16, 185, 129, 0.3)"} />
               )}
             </button>
           );
