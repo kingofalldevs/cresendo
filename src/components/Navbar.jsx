@@ -1,7 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { auth } from '../firebase';
+import { User, LogOut, Mail, Settings, Zap } from 'lucide-react';
 
-const Navbar = ({ apps, slots, openApp, isMobile }) => {
+const Navbar = ({ apps, slots, openApp, isMobile, user, openAuth, startFighterMode }) => {
   return (
     <nav style={{ 
       height: 'auto',
@@ -30,18 +32,18 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
         alignItems: 'center'
       }}>
         {/* Logo */}
-        <h1 style={{ 
-          fontSize: '1rem', 
-          letterSpacing: '-0.04em', 
-          fontWeight: 900, 
-          margin: 0,
-          color: 'var(--text-main)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px'
-        }}>
-          CRESCENDO<span style={{ color: 'var(--primary)' }}>.</span>
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <img src="/logo.png" alt="Guardians Support Logo" style={{ height: '32px', width: 'auto' }} />
+          <span style={{ 
+            fontSize: '1rem', 
+            letterSpacing: '0.05em', 
+            fontWeight: 900, 
+            color: 'var(--text-main)',
+            textTransform: 'uppercase'
+          }}>
+            CRESCENDO
+          </span>
+        </div>
 
         {/* Center: App Tabs */}
         {!isMobile && (
@@ -54,7 +56,9 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
           }}>
             {Object.values(apps).map((app) => {
               const isOpen = slots.includes(app.id);
+              const isAccount = app.id === 'account';
               const Icon = app.icon;
+              
               return (
                 <button
                   key={app.id}
@@ -76,27 +80,13 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}
-                  onMouseOver={(e) => {
-                    if (!isOpen) e.currentTarget.style.color = 'var(--text-main)';
-                    e.currentTarget.style.transform = 'scale(1.05)';
-                  }}
-                  onMouseOut={(e) => {
-                    if (!isOpen) e.currentTarget.style.color = 'var(--text-dim)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                  onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-                  onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                 >
-                  <Icon size={16} />
-                  {app.name}
-                  {isOpen && (
-                    <div style={{
-                      width: '4px',
-                      height: '4px',
-                      borderRadius: '50%',
-                      background: 'var(--primary)'
-                    }} />
+                  {isAccount && user?.photoURL ? (
+                    <img src={user.photoURL} alt="Me" style={{ width: '18px', height: '18px', borderRadius: '50%', objectFit: 'cover' }} />
+                  ) : (
+                    <Icon size={16} />
                   )}
+                  {app.name}
                 </button>
               );
             })}
@@ -104,22 +94,51 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button style={{ 
-            background: 'var(--primary)', 
-            border: 'none',
-            cursor: 'pointer', 
-            color: 'white', 
-            fontSize: '0.75rem',
-            padding: '0.6rem 1.25rem',
-            borderRadius: '100px',
-            fontWeight: 800,
-            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)',
-            transition: 'all 0.3s ease',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}>
-            Sign In
+          {/* URGENCY BUTTON (Previously User Icon) */}
+          <button 
+            onClick={startFighterMode}
+            className="urge-btn"
+            style={{ 
+              background: 'var(--primary)', 
+              border: 'none',
+              cursor: 'pointer', 
+              color: 'white', 
+              fontSize: '0.7rem',
+              padding: '0.5rem 1rem',
+              borderRadius: '100px',
+              fontWeight: 900,
+              boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)',
+              transition: 'all 0.3s ease',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <Zap size={14} fill="white" />
+            URGE
           </button>
+
+          {!user && (
+            <button 
+              onClick={openAuth}
+              style={{ 
+                background: 'transparent', 
+                border: '1px solid var(--primary)',
+                cursor: 'pointer', 
+                color: 'var(--primary)', 
+                fontSize: '0.7rem',
+                padding: '0.5rem 1rem',
+                borderRadius: '100px',
+                fontWeight: 800,
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase'
+              }}
+            >
+              Sign In
+            </button>
+          )}
         </div>
       </div>
     </nav>
@@ -127,4 +146,5 @@ const Navbar = ({ apps, slots, openApp, isMobile }) => {
 };
 
 export default Navbar;
+
 

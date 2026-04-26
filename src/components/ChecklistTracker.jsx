@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const ChecklistTracker = () => {
+const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
   const [viewDate, setViewDate] = useState(new Date(2026, 3, 1)); // Start at April 2026
   const startDate = new Date(2026, 3, 1);
 
@@ -44,6 +44,10 @@ const ChecklistTracker = () => {
   };
 
   const toggleDay = (dayNum) => {
+    if (!user) {
+      openAuth();
+      return;
+    }
     setDaysData(prev => {
       const currentMonth = prev[monthKey] || Array.from({ length: daysInMonth }, (_, i) => ({ day: i + 1, completed: false }));
       const updatedMonth = currentMonth.map(d => d.day === dayNum ? { ...d, completed: !d.completed } : d);
@@ -188,7 +192,72 @@ const ChecklistTracker = () => {
           }}>
             {streak} DAY STREAK
           </span>
+          {streak > 0 && shareToCommunity && (
+            <button
+              onClick={() => shareToCommunity(`🔥 ${streak} DAY STREAK `)}
+              style={{
+                background: 'rgba(245, 158, 11, 0.1)',
+                color: '#f59e0b',
+                border: 'none',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                fontSize: '0.75rem',
+                fontWeight: 900,
+                cursor: 'pointer',
+                marginLeft: '0.5rem',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(245, 158, 11, 0.2)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              SHARE
+            </button>
+          )}
         </div>
+
+        {/* Targets Display */}
+        {Object.keys(monthGoals).length > 0 && (
+          <div style={{ 
+            marginTop: '1.5rem', 
+            textAlign: 'left',
+            background: 'rgba(245, 158, 11, 0.05)',
+            padding: '1rem',
+            borderRadius: '16px',
+            border: '1px solid rgba(245, 158, 11, 0.2)'
+          }}>
+            <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#b45309', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontSize: '1rem' }}>🎯</span> CURRENT TARGETS
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '120px', overflowY: 'auto', paddingRight: '4px' }}>
+              {Object.entries(monthGoals).sort((a, b) => parseInt(a[0]) - parseInt(b[0])).map(([day, text]) => (
+                <div key={day} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                  <span style={{ 
+                    fontSize: '0.7rem', 
+                    fontWeight: 900, 
+                    color: 'white', 
+                    background: '#f59e0b', 
+                    padding: '2px 6px', 
+                    borderRadius: '6px',
+                    minWidth: '24px',
+                    textAlign: 'center',
+                    marginTop: '2px'
+                  }}>
+                    {day}
+                  </span>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)', margin: 0, lineHeight: 1.3 }}>
+                    {text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={{
@@ -244,7 +313,13 @@ const ChecklistTracker = () => {
       </div>
       
       <button 
-        onClick={() => setIsGoalModalOpen(true)}
+        onClick={() => {
+          if (!user) {
+            openAuth();
+          } else {
+            setIsGoalModalOpen(true);
+          }
+        }}
         style={{ 
           padding: '1rem', 
           background: 'var(--bg-color)', 
@@ -383,3 +458,4 @@ const ChecklistTracker = () => {
 };
 
 export default ChecklistTracker;
+
