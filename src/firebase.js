@@ -18,7 +18,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const analytics = getAnalytics(app);
+
+// Initialize Analytics conditionally
+let analytics = null;
+try {
+  analytics = getAnalytics(app);
+} catch (e) {
+  console.warn("Firebase Analytics could not be initialized:", e);
+}
 
 export { db, auth, analytics };
 
