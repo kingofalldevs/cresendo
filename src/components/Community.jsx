@@ -329,11 +329,7 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
             
             {renderAuthOrComposer(false)}
 
-            {posts.length === 0 && !errorMsg ? (
-              <div style={{ padding: '3rem 1rem', textAlign: 'center', color: 'var(--text-dim)', fontWeight: 600 }}>No posts yet. Be the first to share!</div>
-            ) : (
-              posts.map(post => renderPostCard(post, false))
-            )}
+            {posts.map(post => renderPostCard(post, false))}
           </div>
         ) : (
           /* Thread View */
@@ -349,9 +345,6 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
                 Comments ({comments.length})
               </h3>
               {comments.map(comment => renderPostCard(comment, true))}
-              {comments.length === 0 && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-dim)', textAlign: 'center', margin: '2rem 0', fontWeight: 600 }}>No comments yet. Start the conversation!</p>
-              )}
             </div>
 
             {renderAuthOrComposer(true)}
