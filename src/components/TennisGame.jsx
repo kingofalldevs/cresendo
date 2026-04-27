@@ -29,20 +29,22 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
   const lastTouchX = useRef(0);
   const paddleOffset = useRef(0);
 
-  // Update dimensions based on container
+  // Update dimensions using ResizeObserver for better reliability
   useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.clientWidth,
-          height: containerRef.current.clientHeight
-        });
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          setDimensions({ width, height });
+        }
       }
-    };
+    });
 
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -52,30 +54,34 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
-    const paddleWidth = Math.min(canvas.width * 0.25, 100);
-    const paddleHeight = 12;
-    // We'll use a ref-like variable for paddleX within the loop
-    let currentPaddleX = (canvas.width - paddleWidth) / 2;
+    // Proportional sizing
+    const paddleWidth = canvas.width * 0.28;
+    const paddleHeight = Math.max(canvas.height * 0.02, 10);
+    const ballRadius = Math.max(canvas.width * 0.02, 6);
+    
+    // Proportional speeds
+    const baseSpeedY = canvas.height * 0.012;
+    const baseSpeedX = canvas.width * 0.008;
 
-    const ballRadius = 8;
+    let currentPaddleX = (canvas.width - paddleWidth) / 2;
     let x = canvas.width / 2;
-    let y = canvas.height - 50;
-    let dx = (Math.random() - 0.5) * 6;
-    let dy = -5;
+    let y = canvas.height - paddleHeight - 40;
+    let dx = (Math.random() - 0.5) * baseSpeedX * 2;
+    let dy = -baseSpeedY;
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Apply steering wheel offset
       currentPaddleX += paddleOffset.current;
-      paddleOffset.current = 0; // Reset offset after applying
+      paddleOffset.current = 0; 
 
       if (currentPaddleX < 0) currentPaddleX = 0;
       if (currentPaddleX > canvas.width - paddleWidth) currentPaddleX = canvas.width - paddleWidth;
 
-      // Draw Field Lines (Aesthetic)
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.1)';
-      ctx.lineWidth = 2;
+      // Draw Field Lines
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.08)';
+      ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, canvas.height / 2);
       ctx.lineTo(canvas.width, canvas.height / 2);
@@ -83,10 +89,10 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
 
       // Draw Paddle
       ctx.beginPath();
-      ctx.roundRect(currentPaddleX, canvas.height - paddleHeight - 20, paddleWidth, paddleHeight, 6);
+      ctx.roundRect(currentPaddleX, canvas.height - paddleHeight - 20, paddleWidth, paddleHeight, 8);
       ctx.fillStyle = '#10b981';
       ctx.shadowBlur = 15;
-      ctx.shadowColor = 'rgba(16, 185, 129, 0.5)';
+      ctx.shadowColor = 'rgba(16, 185, 129, 0.4)';
       ctx.fill();
       ctx.shadowBlur = 0;
       ctx.closePath();
@@ -96,7 +102,7 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
       ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
       ctx.fillStyle = '#10b981';
       ctx.shadowBlur = 10;
-      ctx.shadowColor = 'rgba(16, 185, 129, 0.4)';
+      ctx.shadowColor = 'rgba(16, 185, 129, 0.3)';
       ctx.fill();
       ctx.shadowBlur = 0;
       ctx.closePath();
@@ -109,18 +115,19 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
         dy = -dy;
       } else if (y + dy > canvas.height - ballRadius - 32) {
         // Paddle collision
-        if (x > currentPaddleX - ballRadius && x < currentPaddleX + paddleWidth + ballRadius) {
-          dy = -dy;
-          const speedUp = 1.05;
+        const paddleTop = canvas.height - paddleHeight - 20;
+        if (x > currentPaddleX - ballRadius && x < currentPaddleX + paddleWidth + ballRadius && y < paddleTop + ballRadius) {
+          dy = -Math.abs(dy); // Ensure it bounces up
+          const speedUp = 1.04;
           dy *= speedUp;
           dx *= speedUp;
           
           const hitPos = (x - (currentPaddleX + paddleWidth / 2)) / (paddleWidth / 2);
-          dx += hitPos * 2;
+          dx += hitPos * (canvas.width * 0.01);
 
           setScore(s => s + 1);
           setScoreMessage(INSPIRATIONS[Math.floor(Math.random() * INSPIRATIONS.length)]);
-        } else {
+        } else if (y + dy > canvas.height + ballRadius) {
           setGameState('GAME_OVER');
           return;
         }
@@ -132,10 +139,7 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
     };
 
     draw();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    return () => cancelAnimationFrame(animationFrameId);
   }, [gameState, dimensions]);
 
   const handleWheelStart = (e) => {
