@@ -339,17 +339,17 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
               justifyContent: 'center',
               marginBottom: '1rem'
             }}>
-              <span style={{ fontSize: '2rem' }}>🎾</span>
+              <span style={{ fontSize: '3rem' }}>{gameState === 'READY' ? '🎾' : '😂'}</span>
             </div>
             
-            <h3 style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-main)' }}>
-              {gameState === 'READY' ? 'Battle the Urge' : 'Focus Drifted'}
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-main)', maxWidth: '280px', lineHeight: 1.3 }}>
+              {gameState === 'READY' ? 'can we play tennis?' : 'ha i won can we play again it was fun'}
             </h3>
             
             <p style={{ color: 'var(--text-dim)', fontWeight: 500, maxWidth: '240px' }}>
               {gameState === 'READY' 
-                ? "Engage your mind to break the cycle. Use the steering wheel to move." 
-                : `You secured ${score} focus points. Every point is a victory.`}
+                ? "Engage your mind to stay focused and break the cycle." 
+                : `Score: ${score} points. Practice makes perfect.`}
             </p>
 
             <button

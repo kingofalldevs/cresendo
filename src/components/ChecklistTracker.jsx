@@ -175,23 +175,26 @@ const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
           }} />
         </div>
 
-        {/* Streak Display */}
         <div style={{ 
           marginTop: '1.5rem', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          gap: '0.5rem' 
+          gap: '1rem',
+          flexWrap: 'wrap'
         }}>
-          <span style={{ fontSize: '1.5rem', filter: 'drop-shadow(0 0 8px rgba(255, 165, 0, 0.4))' }}>🔥</span>
-          <span style={{ 
-            fontSize: '1.25rem', 
-            fontWeight: 900, 
-            color: 'var(--text-main)',
-            fontFamily: 'Plus Jakarta Sans, sans-serif'
-          }}>
-            {streak} DAY STREAK
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '1.5rem', filter: 'drop-shadow(0 0 8px rgba(255, 165, 0, 0.4))' }}>🔥</span>
+            <span style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: 900, 
+              color: 'var(--text-main)',
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              whiteSpace: 'nowrap'
+            }}>
+              {streak} DAY STREAK
+            </span>
+          </div>
           {streak > 0 && shareToCommunity && (
             <button
               onClick={() => shareToCommunity(`🔥 ${streak} DAY STREAK `)}
@@ -199,13 +202,13 @@ const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
                 background: 'rgba(245, 158, 11, 0.1)',
                 color: '#f59e0b',
                 border: 'none',
-                padding: '4px 12px',
-                borderRadius: '12px',
-                fontSize: '0.75rem',
+                padding: '6px 14px',
+                borderRadius: '100px',
+                fontSize: '0.7rem',
                 fontWeight: 900,
                 cursor: 'pointer',
-                marginLeft: '0.5rem',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                letterSpacing: '0.05em'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.background = 'rgba(245, 158, 11, 0.2)';
@@ -216,7 +219,7 @@ const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              SHARE
+              SHARE TO COMMUNITY
             </button>
           )}
         </div>
@@ -262,7 +265,7 @@ const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(7, 1fr)',
+        gridTemplateColumns: 'repeat(5, 1fr)',
         gap: '0.5rem',
         flexGrow: 1,
         overflowY: 'auto',
@@ -369,7 +372,7 @@ const ChecklistTracker = ({ user, openAuth, shareToCommunity }) => {
 
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
+              gridTemplateColumns: 'repeat(5, 1fr)',
               gap: '0.5rem',
               marginBottom: '1.5rem'
             }}>
