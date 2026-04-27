@@ -31,14 +31,14 @@ const Blog = () => {
         
         <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'var(--text-dim)', marginBottom: '3rem' }}>
           Welcome to Crescendo, the ultimate Living OS designed for high-performance individuals seeking to reclaim their rhythm and master their daily habits. 
-          Whether you're looking for a comprehensive habit tracker, a spiritual companion with our integrated Bible reader, or a community of like-minded 
-          guardians, Crescendo provides the tools you need to grow.
+          Whether you're looking for a comprehensive <strong>habit gaining app</strong>, a powerful <strong>addiction recovery app</strong>, a spiritual companion with our integrated Bible reader, or a community of like-minded 
+          guardians, Crescendo provides the tools you need to grow and heal.
         </p>
 
-        <h2 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '1.5rem', marginTop: '3rem' }}>The Best Habit Tracker for Personal Growth</h2>
+        <h2 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '1.5rem', marginTop: '3rem' }}>The Best Habit Tracker & Addiction Recovery App</h2>
         <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-dim)', marginBottom: '2rem' }}>
           Our checklist tracker is optimized for consistency. By setting monthly goals and tracking your daily streaks, you build the momentum 
-          necessary for long-term success. Unlike generic habit apps, Crescendo focuses on the "crescendo" effect—building power through small, 
+          necessary for long-term success. Unlike generic habit apps, Crescendo functions as a comprehensive addiction recovery app, focusing on the "crescendo" effect—building power through small, 
           consistent actions every single day.
         </p>
 
