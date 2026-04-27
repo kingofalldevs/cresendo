@@ -8,7 +8,7 @@ import Community from './components/Community';
 import Account from './components/Account';
 import AuthModal from './components/AuthScreen';
 import InstallPrompt from './components/InstallPrompt';
-import SEOContent from './components/SEOContent';
+import Blog from './components/Blog';
 import { BookOpen, Home, Users, Trophy, User, Zap, X } from 'lucide-react';
 import { auth } from './firebase';
 
@@ -21,6 +21,7 @@ const APP_CONFIG = {
 };
 
 function App() {
+  const [currentPath] = useState(window.location.pathname);
   const [slots, setSlots] = useState(['bible', 'home', 'tennis']);
   const [activeMobileApp, setActiveMobileApp] = useState('home');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -95,6 +96,11 @@ function App() {
     newSlots[slotIndex] = null;
     setSlots(newSlots);
   };
+
+  // Render Blog page if path is /blog
+  if (currentPath === '/blog') {
+    return <Blog />;
+  }
 
   const MobileAppComp = APP_CONFIG[activeMobileApp]?.component;
 
@@ -314,7 +320,6 @@ function App() {
         </div>
       )}
       {isMobile && <InstallPrompt />}
-      <SEOContent />
     </div>
   );
 }
