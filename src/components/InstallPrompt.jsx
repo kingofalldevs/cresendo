@@ -69,7 +69,7 @@ const InstallPrompt = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ width: '48px', height: '48px', background: 'var(--primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)' }}>
-              <img src="/lamb_logo.png" alt="Crescendo" style={{ width: '32px', height: '32px', filter: 'brightness(0) invert(1)' }} />
+              <img src="/crescendo_logo.png" alt="Crescendo" style={{ width: '32px', height: '32px', filter: 'brightness(0) invert(1)' }} />
             </div>
             <div>
               <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 900, color: 'var(--text-main)' }}>Install Crescendo</h4>
