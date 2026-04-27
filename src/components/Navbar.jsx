@@ -33,7 +33,7 @@ const Navbar = ({ apps, slots, openApp, isMobile, user, openAuth, startFighterMo
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-          <img src="/logo.png" alt="Logo" style={{ height: '32px', width: 'auto' }} />
+          <img src="/lamb_logo.png" alt="Logo" style={{ height: '32px', width: 'auto' }} />
         </div>
 
         {/* Center: App Tabs */}
