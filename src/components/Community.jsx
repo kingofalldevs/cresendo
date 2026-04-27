@@ -147,7 +147,22 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
 
   const formatTime = (timestamp) => {
     if (!timestamp) return 'Just now';
-    const date = timestamp.toDate();
+    
+    let date;
+    if (typeof timestamp.toDate === 'function') {
+      date = timestamp.toDate();
+    } else if (timestamp.seconds) {
+      date = new Date(timestamp.seconds * 1000);
+    } else {
+      try {
+        date = new Date(timestamp);
+      } catch (e) {
+        return 'Just now';
+      }
+    }
+    
+    if (isNaN(date.getTime())) return 'Just now';
+
     const now = new Date();
     const diff = (now - date) / 1000;
 
@@ -164,10 +179,11 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
     const isMine = user && post.uid === user.uid;
 
     // Detect and beautifully style shared streaks (e.g. 🔥 30 DAY STREAK)
-    const streakMatch = post.msg.match(/(🔥\s*\d+\s*DAY STREAK)/i);
+    const messageText = typeof post.msg === 'string' ? post.msg : '';
+    const streakMatch = messageText.match(/(🔥\s*\d+\s*DAY STREAK)/i);
     const hasStreak = streakMatch !== null;
     const streakText = hasStreak ? streakMatch[1] : null;
-    const remainingText = hasStreak ? post.msg.replace(streakText, '').trim() : post.msg;
+    const remainingText = hasStreak ? messageText.replace(streakText, '').trim() : messageText;
 
     return (
       <div key={post.id} style={{ 
