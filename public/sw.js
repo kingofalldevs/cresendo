@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crescendo-v1';
+const CACHE_NAME = 'crescendo-v3';
 const ASSETS = [
   '/',
   '/index.html',
