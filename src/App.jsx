@@ -8,6 +8,7 @@ import Community from './components/Community';
 import Account from './components/Account';
 import AuthModal from './components/AuthScreen';
 import InstallPrompt from './components/InstallPrompt';
+import SEOContent from './components/SEOContent';
 import { BookOpen, Home, Users, Trophy, User, Zap, X } from 'lucide-react';
 import { auth } from './firebase';
 
@@ -313,6 +314,7 @@ function App() {
         </div>
       )}
       {isMobile && <InstallPrompt />}
+      <SEOContent />
     </div>
   );
 }
