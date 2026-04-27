@@ -32,17 +32,8 @@ const Navbar = ({ apps, slots, openApp, isMobile, user, openAuth, startFighterMo
         alignItems: 'center'
       }}>
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-          <img src="/logo.png" alt="Guardians Support Logo" style={{ height: '32px', width: 'auto' }} />
-          <span style={{ 
-            fontSize: '1rem', 
-            letterSpacing: '0.05em', 
-            fontWeight: 900, 
-            color: 'var(--text-main)',
-            textTransform: 'uppercase'
-          }}>
-            CRESCENDO
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <img src="/logo.png" alt="Logo" style={{ height: '32px', width: 'auto' }} />
         </div>
 
         {/* Center: App Tabs */}
