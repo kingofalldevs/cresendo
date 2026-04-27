@@ -59,9 +59,9 @@ const TennisGame = ({ user, openAuth, isFighterMode }) => {
     const paddleHeight = Math.max(canvas.height * 0.02, 10);
     const ballRadius = Math.max(canvas.width * 0.02, 6);
     
-    // Proportional speeds
-    const baseSpeedY = canvas.height * 0.012;
-    const baseSpeedX = canvas.width * 0.008;
+    // Proportional speeds - slightly increased for better mobile feel
+    const baseSpeedY = canvas.height * 0.016;
+    const baseSpeedX = canvas.width * 0.01;
 
     let currentPaddleX = (canvas.width - paddleWidth) / 2;
     let x = canvas.width / 2;
