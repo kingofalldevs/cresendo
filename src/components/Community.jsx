@@ -55,13 +55,24 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
       setComments([]);
       return;
     }
-    const q = query(collection(db, 'community_comments'), where('postId', '==', activePost.id), orderBy('createdAt', 'asc'));
+    const q = query(collection(db, 'community_comments'), where('postId', '==', activePost.id));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const fetched = [];
       snapshot.forEach((doc) => {
         fetched.push({ id: doc.id, ...doc.data() });
       });
+      
+      // Sort on the client side to avoid requiring a composite index in Firestore
+      fetched.sort((a, b) => {
+        const timeA = a.createdAt ? (typeof a.createdAt.toMillis === 'function' ? a.createdAt.toMillis() : a.createdAt.seconds * 1000) : Date.now();
+        const timeB = b.createdAt ? (typeof b.createdAt.toMillis === 'function' ? b.createdAt.toMillis() : b.createdAt.seconds * 1000) : Date.now();
+        return timeA - timeB; // Ascending order
+      });
+      
       setComments(fetched);
+    }, (error) => {
+      console.error("Error fetching comments:", error);
+      setErrorMsg("Failed to load comments: " + error.message);
     });
     return () => unsubscribe();
   }, [activePost]);
@@ -114,8 +125,14 @@ const Community = ({ user, openAuth, communityDraft, setCommunityDraft }) => {
         createdAt: serverTimestamp(),
         likes: []
       });
+      setErrorMsg(null);
     } catch (error) {
       console.error("Error sending comment:", error);
+      if (error.code === 'permission-denied') {
+        setErrorMsg("Cannot post comment: Please enable Test Mode in your Firestore Database Rules.");
+      } else {
+        setErrorMsg(error.message);
+      }
     }
   };
 
